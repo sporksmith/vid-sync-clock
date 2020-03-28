@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <script>
+
+const MAXX = 1000;
+const MAXY = 30;
+
+function drawElement(ctx, current_val, max_val) {
+    const x = Math.floor(current_val/max_val*MAXX);
+    ctx.fillRect(x, 0, 20, MAXY);
+}
+
+function draw(timestamp){
+    const canvas = document.getElementById('clock');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(0, 0, MAXX, MAXY);
+
+    const millis = Math.floor(timestamp) % 1000;
+    const seconds = Math.floor(timestamp/1000) % 60;
+    const minutes = Math.floor(timestamp/1000/60) % 60;
+    const hours = Math.floor(timestamp/1000/60/60);
+
+    ctx.fillStyle = "black";
+    //drawElement(ctx, minutes, 60);
+    ctx.fillStyle = "blue";
+    drawElement(ctx, seconds, 60);
+    ctx.fillStyle = "red";
+    drawElement(ctx, millis, 1000);
+
+    ctx.fillStyle = "gray";
+    ctx.font = "30px Arial";
+    ctx.fillText("" + hours + ":" + minutes + ":" + seconds + ":" + millis, 0, MAXY);
+
+    window.requestAnimationFrame(draw);
+}
+</script>
+    </head>
+    <body onload="window.requestAnimationFrame(draw);">
+        <canvas id="clock" width="1000" height="30"></canvas>
+    </body>
+</html>
+
