@@ -4,6 +4,7 @@
 
 const MAXX = 1000;
 const MAXY = 30;
+var frame = 0;
 
 function drawElement(ctx, current_val, max_val) {
     const x = Math.floor(current_val/max_val*MAXX);
@@ -33,7 +34,7 @@ function draw(timestamp){
 
     ctx.fillStyle = "gray";
     ctx.font = "30px Arial";
-    ctx.fillText("" + hours + ":" + minutes + ":" + seconds + ":" + millis, 0, MAXY);
+    ctx.fillText("" + frame++ + "  " + hours + ":" + minutes + ":" + seconds + ":" + millis, 0, MAXY);
 
     window.requestAnimationFrame(draw);
 }
