@@ -11,6 +11,12 @@ function drawElement(ctx, current_val, max_val) {
     ctx.fillRect(x, 0, 20, MAXY);
 }
 
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s
+}
+
 function draw(timestamp){
     const canvas = document.getElementById('clock');
     const ctx = canvas.getContext('2d');
@@ -34,7 +40,7 @@ function draw(timestamp){
 
     ctx.fillStyle = "gray";
     ctx.font = "30px Arial";
-    ctx.fillText("" + frame++ + "  " + hours + ":" + minutes + ":" + seconds + ":" + millis, 0, MAXY);
+    ctx.fillText("" + frame++ + "  " + hours + ":" + minutes + ":" + seconds + ":" + pad(millis, 3), 0, MAXY);
 
     window.requestAnimationFrame(draw);
 }
