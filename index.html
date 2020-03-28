@@ -1,10 +1,13 @@
 <html>
     <head>
         <script>
+'use strict';
 
-const MAXX = 1000;
-const MAXY = 30;
+var MAXX;
+var MAXY = 30;
 var frame = 0;
+const targetFrameRate = 31;
+const millisPerFrame = 1000/targetFrameRate;
 
 function drawElement(ctx, current_val, max_val) {
     const x = Math.floor(current_val/max_val*MAXX);
@@ -17,13 +20,31 @@ function pad(num, size) {
     return s
 }
 
+function setDimensions() {
+    var win = window;
+    const doc = document;
+    const docElem = doc.documentElement;
+    const body = doc.getElementsByTagName('body')[0];
+    MAXX = win.innerWidth || docElem.clientWidth || body.clientWidth;
+    //MAXY = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+    const canvas = document.getElementById('clock');
+    canvas.width = MAXX;
+}
+
+var nextUpdate = 0;
 function draw(timestamp){
+    window.requestAnimationFrame(draw);
+    if (nextUpdate != 0 && timestamp < nextUpdate) {
+        return;
+    }
+    nextUpdate = timestamp + millisPerFrame;
+
     const canvas = document.getElementById('clock');
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "gray";
     ctx.strokeRect(0, 0, MAXX, MAXY);
 
     const millis = Math.floor(timestamp) % 1000;
@@ -41,13 +62,19 @@ function draw(timestamp){
     ctx.fillStyle = "gray";
     ctx.font = "30px Arial";
     ctx.fillText("" + frame++ + "  " + hours + ":" + minutes + ":" + seconds + ":" + pad(millis, 3), 0, MAXY);
+}
 
+function init() {
+    window.addEventListener("resize", setDimensions);
+    setDimensions();
     window.requestAnimationFrame(draw);
 }
+
 </script>
+<title>Video sync clock</title>
     </head>
-    <body onload="window.requestAnimationFrame(draw);">
-        <canvas id="clock" width="1000" height="30"></canvas>
+    <body onload="init();" style="margin-left:0px; margin-right: 0px; margin-top: 0px" >
+        <canvas id="clock" height="30"></canvas>
     </body>
 </html>
 
