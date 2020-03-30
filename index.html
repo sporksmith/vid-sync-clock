@@ -45,11 +45,13 @@ function draw(timestamp){
 
     const canvas = document.getElementById('clock');
     const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00";
+    ctx.fillRect(0, 0, MAXX, MAXY);
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "gray";
-    ctx.strokeRect(0, 0, MAXX, MAXY);
+    ctx.lineWidth = 5;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 10, MAXY);
+    ctx.fillRect(MAXX-10, 0, 10, MAXY);
 
     const millis = Math.floor(timestamp) % 1000;
     const seconds = Math.floor(timestamp/1000) % 60;
@@ -63,9 +65,9 @@ function draw(timestamp){
     ctx.fillStyle = "red";
     drawElement(ctx, millis, 1000);
 
-    ctx.fillStyle = "gray";
-    ctx.font = "30px Arial";
-    ctx.fillText("" + frame++ + "  " + hours + ":" + minutes + ":" + seconds + ":" + pad(millis, 3), 0, MAXY);
+    ctx.fillStyle = "white";
+    ctx.font = "bolder 30px Arial";
+    ctx.fillText("" + frame++ + "  " + hours + ":" + minutes + ":" + seconds + ":" + pad(millis, 3), 10, MAXY);
 }
 
 function init() {
@@ -77,7 +79,7 @@ function init() {
 </script>
 <title>Video sync clock</title>
     </head>
-    <body onload="init();" style="margin-left:0px; margin-right: 0px; margin-top: 0px" >
+    <body onload="init();" style="margin-left:0px; margin-right: 0px; margin-top: 0px; bgcolor: '00ff00'" >
         <canvas id="clock" height="30"></canvas>
     </body>
 </html>
